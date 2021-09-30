@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rock, Paper, Scissors</title>
+    </head>
+
+    <body>
+        <h1>RPS Game</h1>
+
+        <div class="form">
+            <label for="gamePlayerSelection">Choose your shape:</label>
+            <select name="gamePlayerSelection" id="gamePlayerSelection" onchange="handleSelectChange(event)">
+                <option value="Rock">Rock</option>
+                <option value="Paper">Paper</option>
+                <option value="Scissors">Scissors</option>
+            </select>
+            <input type="submit" value="Submit" class="playerSubmit" onclick="playRound(playerSelection, computerSelection)">
+        </div>
+    </body>
+
+    <script>
+        const rpsChoices = ["Rock", "Paper", "Scissors"];
+        const selection = document.getElementById("gamePlayerSelection");
+        const playerSubmit = document.querySelector('.playerSubmit');
+        let playerSelection = "Rock";
+        let computerSelection = computerPlay();
+        let roundCount = 1;
+
+        function game() {
+            
+        }
+
+        function computerPlay() {
+            return rpsChoices[Math.floor(Math.random()*3)];
+        }
+
+        function playRound(gamePlayerSelection, gameComputerSelection) {
+            switch (gamePlayerSelection) {
+                case "Rock":
+                    if (gameComputerSelection === "Rock"){ alert(`It's a tie! You both selected ${ gamePlayerSelection }!`); }
+                    else if (gameComputerSelection === "Paper"){ alert(`You lose! ${ gameComputerSelection } beats ${ gamePlayerSelection }!`); }
+                    else { alert(`You win! ${ gamePlayerSelection } beats ${ gameComputerSelection }!`); }
+                    break;
+                case "Paper":
+                    if (gameComputerSelection === "Rock"){ alert(`You win! ${ gamePlayerSelection } beats ${ gameComputerSelection }!`); }
+                    else if (gameComputerSelection === "Paper"){ alert(`It's a tie! You both selected ${ gamePlayerSelection }!`); }
+                    else { alert(`You lose! ${ gameComputerSelection } beats ${ gamePlayerSelection }!`); }
+                    break;
+                case "Scissors":
+                    if (gameComputerSelection === "Rock"){ alert(`You lose! ${ gameComputerSelection } beats ${ gamePlayerSelection }!`); }
+                    else if (gameComputerSelection === "Paper"){ alert(`You win! ${ gamePlayerSelection } beats ${ gameComputerSelection }!`); }
+                    else { alert(`It's a tie! You both selected ${ gamePlayerSelection }!`); }
+                    break;
+            }
+            computerSelection = computerPlay();
+        }
+
+        function handleSelectChange(event) {
+            playerSelection = event.target.value;
+        }
+    </script>
+</html>

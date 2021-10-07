@@ -5,19 +5,17 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rock, Paper, Scissors</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="rps.js" defer></script>
     </head>
 
     <body>
         <h1>RPS Game</h1>
         <p>Play 5 rounds of RPS!</p>
-        <div class="form">
-            <label for="gamePlayerSelection">Choose your shape:</label>
-            <select name="gamePlayerSelection" id="gamePlayerSelection" onchange="handleSelectChange(event)">
-                <option value="Rock">Rock</option>
-                <option value="Paper">Paper</option>
-                <option value="Scissors">Scissors</option>
-            </select>
-            <input type="submit" value="Submit" class="playerSubmit" onclick="game(playerSelection, computerSelection)">
+        <div class="buttons">
+            <button class="rps-button" value="Rock">Rock</button>
+            <button class="rps-button" value="Paper">Paper</button>
+            <button class="rps-button" value="Scissors">Scissors</button>
         </div>
         <div class="resultParas">
             <p class="rounds"></p>
@@ -25,107 +23,4 @@
             <p class="finalResult"></p>
         </div>
     </body>
-
-    <script>
-        const rpsChoices = ["Rock", "Paper", "Scissors"];
-        const selection = document.getElementById("gamePlayerSelection");
-        const playerSubmit = document.querySelector('.playerSubmit');
-        const results = document.querySelector('.rounds');
-        const lastResult = document.querySelector('.lastResult');
-        const finalResult = document.querySelector('.finalResult');
-
-        let playerSelection = "Rock";
-        let computerSelection = computerPlay();
-        let playerScore = 0, computerScore = 0;
-        let roundCount = 1;
-
-        results.innerHTML = "";
-        lastResult.innerHTML = "";
-        finalResult.innerHTML = "";
-        let resetButton;
-
-        function game(gamePlayerSelection, gameComputerSelection) {
-            playRound(gamePlayerSelection, gameComputerSelection);
-            results.innerHTML = `Results:<br>Player ${ playerScore } : Computer ${ computerScore }`;
-            
-            if (roundCount === 5) {
-                if (playerScore > computerScore) {
-                    finalResult.innerHTML = "You Win!";
-                }
-                else if (playerScore < computerScore) {
-                    finalResult.innerHTML = "You Lose!";
-                }
-                else {
-                    finalResult.innerHTML = "It's a Draw!";
-                }
-                gameOver();
-            }
-            roundCount++;
-        }
-
-        function computerPlay() {
-            return rpsChoices[Math.floor(Math.random()*3)];
-        }
-
-        function playRound(gamePlayerSelection, gameComputerSelection) {
-            if (gamePlayerSelection === gameComputerSelection) {
-                playerTie(gamePlayerSelection);
-            }
-
-            switch (gamePlayerSelection) {
-                case "Rock":
-                    if (gameComputerSelection === "Scissors") { playerWin(gamePlayerSelection, gameComputerSelection); }
-                    if (gameComputerSelection === "Paper") { playerLose(gamePlayerSelection, gameComputerSelection); }
-                    break;
-                case "Paper":
-                    if (gameComputerSelection === "Rock") { playerWin(gamePlayerSelection, gameComputerSelection); }
-                    if (gameComputerSelection === "Scissors") { playerLose(gamePlayerSelection, gameComputerSelection); }
-                    break;
-                case "Scissors":
-                    if (gameComputerSelection === "Paper") { playerWin(gamePlayerSelection, gameComputerSelection); }
-                    if (gameComputerSelection === "Rock") { playerLose(gamePlayerSelection, gameComputerSelection); }
-                    break;
-            }
-            computerSelection = computerPlay();
-        }
-
-        function playerWin(gamePlayerSelection, gameComputerSelection) {
-            lastResult.innerHTML += `You Win! ${ gamePlayerSelection } (You) beats ${ gameComputerSelection } (Com) (Round ${ roundCount }/5)<br>`;
-            playerScore++;
-        }
-
-        function playerLose(gamePlayerSelection, gameComputerSelection) {
-            lastResult.innerHTML += `You Lose! ${ gameComputerSelection } (Com) beats ${ gamePlayerSelection } (You) (Round ${ roundCount }/5)<br>`;
-            computerScore++;
-        }
-        
-        function playerTie(gamePlayerSelection) {
-            lastResult.innerHTML += `It's a tie! Both selected ${ gamePlayerSelection } (Round ${ roundCount }/5)<br>`;
-        }
-
-        function gameOver() {
-            resetButton = document.createElement('button');
-            resetButton.textContent = 'Start new game';
-            document.body.appendChild(resetButton);
-            resetButton.addEventListener('click', resetGame);
-        }
-
-        function resetGame() {
-            roundCount = 1;
-            playerScore = 0
-            computerScore = 0;
-
-            const resetParas = document.querySelectorAll('.resultParas p');
-            for(let i = 0; i < resetParas.length; i++) {
-                resetParas[i].innerHTML = "";
-            }
-            resetButton.parentNode.removeChild(resetButton);
-
-            computerSelection = computerPlay();
-        }
-
-        function handleSelectChange(event) {
-            playerSelection = event.target.value;
-        }
-    </script>
 </html>

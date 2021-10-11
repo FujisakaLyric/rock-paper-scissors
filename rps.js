@@ -10,6 +10,8 @@ function playRound(event) {
         results.innerHTML = `Results:<br>Player ${ playerScore } : Computer ${ computerScore }`;
     }
 
+    if (roundCount > 5) { return; }
+
     if (gamePlayerSelection === gameComputerSelection) {
         playerTie(gamePlayerSelection);
     }
@@ -27,6 +29,10 @@ function playRound(event) {
             if (gameComputerSelection === "Paper") { playerWin(gamePlayerSelection, gameComputerSelection); }
             if (gameComputerSelection === "Rock") { playerLose(gamePlayerSelection, gameComputerSelection); }
             break;
+    }
+
+    if (roundCount >= 1) {
+        results.innerHTML = `Results:<br>Player ${ playerScore } : Computer ${ computerScore }`;
     }
 
     if (roundCount === 5) {
